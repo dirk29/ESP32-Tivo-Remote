@@ -2,8 +2,10 @@
 #include <WebServer.h>
 #include <Adafruit_GFX.h>
 #include <Adafruit_ST7789.h>
+#include <SPI.h>
 #include "USB.h"
 #include "USBHIDKeyboard.h"
+#include "USBHIDConsumerControl.h"
 
 // ---------- Wi-Fi ----------
 #define WIFI_SSID      "MY_WIFI_SSID"
@@ -13,16 +15,18 @@
 #define TFT_CS    37
 #define TFT_RST   33
 #define TFT_DC    38
-#define TFT_MOSI  35
-#define TFT_SCLK  36
+#define TFT_MOSI  35  // Maps to HSPI MOSI
+#define TFT_SCLK  36  // Maps to HSPI SCLK
 #define TFT_BL    34
 #define ST77XX_DARKGREY 0x7BEF
 
-Adafruit_ST7789 tft = Adafruit_ST7789(TFT_CS, TFT_DC, TFT_MOSI, TFT_SCLK, TFT_RST);
+SPIClass *hspi = new SPIClass(HSPI);
+Adafruit_ST7789 tft = Adafruit_ST7789(hspi, TFT_CS, TFT_DC, TFT_RST);
 
 // ---------- Web + HID ----------
 WebServer server(80);
 USBHIDKeyboard Keyboard;
+USBHIDConsumerControl ConsumerControl;
 String lastKey = "";
 
 // ---------- UI drawing on the TFT ----------
@@ -46,6 +50,7 @@ void drawUI() {
   // D-pad visuals
   tft.fillRoundRect(90, 40, 60, 40, 8, lastKey=="up" ? ST77XX_YELLOW : ST77XX_DARKGREY);
   tft.setCursor(112, 50); tft.print("^");
+  // Note: The 'down' button (Y=120) and text (Y=130) are at the very bottom edge of the 135px screen.
   tft.fillRoundRect(90, 120, 60, 40, 8, lastKey=="down" ? ST77XX_YELLOW : ST77XX_DARKGREY);
   tft.setCursor(108, 130); tft.print("v");
   tft.fillRoundRect(40, 80, 60, 40, 8, lastKey=="left" ? ST77XX_YELLOW : ST77XX_DARKGREY);
@@ -59,7 +64,7 @@ void drawUI() {
   tft.fillRoundRect(200, 5, 40, 25, 5, lastKey=="home" ? ST77XX_ORANGE : ST77XX_DARKGREY);
   tft.setCursor(210, 12); tft.print("Home");
   tft.setTextSize(2);
-  tft.setCursor(6, 170);
+  tft.setCursor(6, 118); // Corrected Y-position
   tft.setTextColor(ST77XX_WHITE);
   tft.print("Last: ");
   tft.setTextColor(ST77XX_YELLOW);
@@ -74,8 +79,19 @@ void sendKey(const String &key) {
   else if (key == "left")  Keyboard.write(KEY_LEFT_ARROW);
   else if (key == "right") Keyboard.write(KEY_RIGHT_ARROW);
   else if (key == "ok")    Keyboard.write(KEY_RETURN);
-  else if (key == "back")  Keyboard.write(KEY_ESC);
-  else if (key == "home")  Keyboard.write(KEY_MENU);
+
+  // CHANGED: Use .press() and .release() and the full key name
+  else if (key == "back") {
+    ConsumerControl.press(HID_USAGE_CONSUMER_AC_BACK);
+    ConsumerControl.release();
+  }
+  else if (key == "home") {
+    // Note: The key for "Home" is HID_USAGE_CONSUMER_AC_HOME
+    ConsumerControl.press(HID_USAGE_CONSUMER_AC_HOME);
+    ConsumerControl.release();
+  }
+
+  // Redraw the UI to show the button highlight and update "Last:" text
   drawUI();
 }
 
@@ -176,17 +192,22 @@ void handleIP() {
   server.send(200, "text/plain", WiFi.localIP().toString());
 }
 
+// ---------- Setup ----------
 void setup() {
-  // ---------- DISPLAY/BACKLIGHT FIX ----------
+  hspi->begin(TFT_SCLK, -1, TFT_MOSI, -1);
+
   pinMode(TFT_BL, OUTPUT);
-  digitalWrite(TFT_BL, LOW); // CHANGE: LOW, try HIGH if this fails!
-  tft.init(240, 135);        // Or tft.init(135, 240); if needed
-  tft.setRotation(1);        // Try setRotation(3) if display is rotated
+  digitalWrite(TFT_BL, HIGH);
+
+  tft.init(135, 240);
+  tft.setRotation(3);
+
   tft.fillScreen(ST77XX_RED); delay(400);
   tft.fillScreen(ST77XX_GREEN); delay(400);
   tft.fillScreen(ST77XX_BLUE); delay(400);
+
   drawUI();
-  // -------------------------------------------
+
   WiFi.mode(WIFI_STA);
   WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
   unsigned long start = millis();
@@ -194,12 +215,17 @@ void setup() {
     delay(300);
     drawUI();
   }
+
   drawUI();
+
   USB.begin();
   Keyboard.begin();
+  ConsumerControl.begin();
+
   server.on("/", HTTP_GET, handleRoot);
   server.on("/k", HTTP_POST, handleKey);
   server.on("/ip", HTTP_GET, handleIP);
+
   server.on("/up",    [](){ sendKey("up");    server.send(200,"text/plain","OK"); });
   server.on("/down",  [](){ sendKey("down");  server.send(200,"text/plain","OK"); });
   server.on("/left",  [](){ sendKey("left");  server.send(200,"text/plain","OK"); });
@@ -207,13 +233,11 @@ void setup() {
   server.on("/ok",    [](){ sendKey("ok");    server.send(200,"text/plain","OK"); });
   server.on("/back",  [](){ sendKey("back");  server.send(200,"text/plain","OK"); });
   server.on("/home",  [](){ sendKey("home");  server.send(200,"text/plain","OK"); });
+
   server.begin();
 }
 
+// ---------- Loop ----------
 void loop() {
   server.handleClient();
 }
-
-
-
-
