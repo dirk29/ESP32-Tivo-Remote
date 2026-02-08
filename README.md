@@ -7,7 +7,7 @@
 - Acts as a programmable USB keyboard remote control for TiVo and compatible Android TV devices.
 - Displays connection status and last pressed key on the built-in TFT display.
 - Provides a web interface accessible over Wi-Fi to control the remote from any browser on the same network or via VPN.
-- Supports D-pad navigation (up, down, left, right), OK, Back, and Home (mapped to TiVo menu).
+- Supports D-pad navigation (up, down, left, right), OK, Back, Home (mapped to TiVo menu), Guide and Channel Up/Down.
 
 ## Hardware Requirements
 
@@ -17,7 +17,7 @@
 ## Software Requirements
 
 - Install Arduino IDE with support for ESP32-S3
-  - Download Arduino IDE: [https://www.arduino.cc/en/software](https://www.arduino.cc/en/software)  
+  - Download Arduino IDE: [https://www.arduino.cc/en/software](https://www.arduino.cc/en/software)
   - Open **Arduino IDE**
   - Go to **File → Preferences**
   - In the **"Additional Board Manager URLs"** field, paste: https://raw.githubusercontent.com/espressif/arduino-esp32/gh-pages/package_esp32_index.json
@@ -51,14 +51,15 @@
 6. After boot, the TFT will display Wi-Fi connection status and IP address.
 7. Access the web interface by entering the displayed IP address into a browser on the same Wi-Fi network or via VPN, e.g. http://192.168.50.233
 8. Use your web browser to fully control your TiVo device remotely.
+</p>
 <p float="left">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/b2650494-143f-4182-bdde-8e6ecc2a7b37" width="320px"/>
-    <img src="https://github.com/user-attachments/assets/b2650494-143f-4182-bdde-8e6ecc2a7b37" width="320px"/>
+    <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/bc7b36e2-cca3-4ea5-99fc-eaa8a21a1267" width="380px"/>
+    <img src="https://github.com/user-attachments/assets/bc7b36e2-cca3-4ea5-99fc-eaa8a21a1267" width="380px"/>
   </picture>
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/a9a0fa57-b187-4563-afc2-b8eaf78ea35d" width="320px"/>
-    <img src="https://github.com/user-attachments/assets/a9a0fa57-b187-4563-afc2-b8eaf78ea35d" width="320px"/>
+    <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/a9a0fa57-b187-4563-afc2-b8eaf78ea35d" width="400px"/>
+    <img src="https://github.com/user-attachments/assets/a9a0fa57-b187-4563-afc2-b8eaf78ea35d" width="400px"/>
   </picture>
 </p>
 
