@@ -51,17 +51,27 @@
 6. After boot, the TFT will display Wi-Fi connection status and IP address.
 7. Access the web interface by entering the displayed IP address into a browser on the same Wi-Fi network or via VPN, e.g. http://192.168.50.233
 8. Use your web browser to fully control your TiVo device remotely.
-</p>
-<p float="left">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/bc7b36e2-cca3-4ea5-99fc-eaa8a21a1267" width="380px"/>
-    <img src="https://github.com/user-attachments/assets/bc7b36e2-cca3-4ea5-99fc-eaa8a21a1267" width="380px"/>
-  </picture>
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/a9a0fa57-b187-4563-afc2-b8eaf78ea35d" width="400px"/>
-    <img src="https://github.com/user-attachments/assets/a9a0fa57-b187-4563-afc2-b8eaf78ea35d" width="400px"/>
-  </picture>
-</p>
+<table border="0" cellpadding="0" cellspacing="0">
+  <tr>
+    <td width="50%" valign="top" style="border: none;">
+      <picture>
+        <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/bc7b36e2-cca3-4ea5-99fc-eaa8a21a1267">
+        <img src="https://github.com/user-attachments/assets/bc7b36e2-cca3-4ea5-99fc-eaa8a21a1267" width="100%">
+      </picture>
+    </td>
+    <td width="50%" valign="top" style="border: none;">
+      <picture>
+        <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/506833b2-190c-41c5-80ed-81af53d7618b">
+        <img src="[https://github.com/user-attachments/assets/a9a0fa57-b187-4563-afc2-b8eaf78ea35d] width="100%">
+      </picture>
+      <br>
+      <picture>
+        <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/a9a0fa57-b187-4563-afc2-b8eaf78ea35d">
+        <img src="https://github.com/user-attachments/assets/a9a0fa57-b187-4563-afc2-b8eaf78ea35d" width="100%">
+      </picture>
+    </td>
+  </tr>
+</table><br>
 
 ## License
 
