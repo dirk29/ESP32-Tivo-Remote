@@ -1,5 +1,7 @@
 # ESP32-Tivo-Remote
 
+> **⚠️ DEPRECATION NOTICE:** The Arduino version of this code is considered outdated and deprecated. Please use the PlatformIO version located in the root of this repository instead.
+
 **ESP32-Tivo-Remote** is an open-source project that transforms a Waveshare ESP32-S3 microcontroller with a 1.14" ST7789 display into a Wi-Fi-enabled USB remote control for TiVo Streamers and similar Android TV devices.
 
 ## Features
@@ -16,28 +18,41 @@
 
 ## Software Requirements
 
-- Install **Visual Studio Code (VSCode)**
-  - Download VSCode: [https://code.visualstudio.com/](https://code.visualstudio.com/)
-- Install the **PlatformIO IDE** extension for VSCode
-  - Open VSCode
-  - Go to the **Extensions** view (Ctrl+Shift+X or Cmd+Shift+X)
-  - Search for "PlatformIO IDE"
-  - Click **Install**
+- Install Arduino IDE with support for ESP32-S3
+  - Download Arduino IDE: [https://www.arduino.cc/en/software](https://www.arduino.cc/en/software)
+  - Open **Arduino IDE**
+  - Go to **File → Preferences**
+  - In the **"Additional Board Manager URLs"** field, paste: https://raw.githubusercontent.com/espressif/arduino-esp32/gh-pages/package_esp32_index.json
+  - Click **OK**
+  - Go to **Tools → Board → Board Manager**
+  - Search for **ESP32**
+  - Install **"esp32 by Espressif Systems"**
+  - Hold **Boot** button of ESP32-S3 board and connect to USB port of computer
+  - In Arduino IDE, go to **Tools → Port**, select the ESP32 COM/TTY port (USB)
+  - Set **Tools → Board** to **ESP32S3 Dev Module**
+  - Set **Tools → USB CDC on Boot** to **Enabled**
+  - Set **Tools → USB Flash Size** to **16 MB**
+  - Set **Tools → USB PSRAM** to **OPI PSRAM**
+  - Set **Tools → USB Mode** to **USB OTG (Tiny USB)**
 
-*(All necessary board configurations and library dependencies are automatically managed by the `platformio.ini` file.)*
+- Install Arduino libraries:
+  - WiFi
+  - WebServer
+  - Adafruit_GFX
+  - Adafruit_ST7789
+  - USB
+  - USBHIDKeyboard
 
 ## Setup Instructions
 
 1. Clone or download the repository.
-2. Open the cloned folder in VSCode.
-3. Wait for PlatformIO to initialize the project and install the required tools and dependencies.
-4. Open the `src/main.cpp` file and modify the `WIFI_SSID` and `WIFI_PASSWORD` constants in the code to match your Wi-Fi network credentials.
-5. Connect your ESP32-S3 microcontroller board to your computer's USB port (hold the **Boot** button if necessary).
-6. Click the PlatformIO **Upload** button (the right-pointing arrow in the bottom status bar) to compile and upload the firmware to your ESP32-S3 board.
-7. Connect the ESP32-S3 USB to your TiVo device.
-8. After boot, the TFT will display Wi-Fi connection status and IP address.
-9. Access the web interface by entering the displayed IP address into a browser on the same Wi-Fi network or via VPN, e.g. `http://192.168.50.233`
-10. Use your web browser to fully control your TiVo device remotely.
+2. Open the `ESP32-Tivo-Remote.ino` file in Arduino IDE.
+3. Modify the `WIFI_SSID` and `WIFI_PASSWORD` constants in the code to match your Wi-Fi network credentials.
+4. Compile and upload the sketch to your ESP32-S3 microcontroller board.
+5. Connect the ESP32-S3 USB to your TiVo device.
+6. After boot, the TFT will display Wi-Fi connection status and IP address.
+7. Access the web interface by entering the displayed IP address into a browser on the same Wi-Fi network or via VPN, e.g. http://192.168.50.233
+8. Use your web browser to fully control your TiVo device remotely.
 <table border="0" cellpadding="0" cellspacing="0">
   <tr>
     <td width="50%" valign="top" style="border: none;">

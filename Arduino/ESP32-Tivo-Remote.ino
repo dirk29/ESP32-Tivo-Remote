@@ -8,8 +8,8 @@
 #include "USBHIDConsumerControl.h"
 
 // ---------- Wi-Fi Credentials ----------
-#define WIFI_SSID      "MY_WIFI_SSID"
-#define WIFI_PASSWORD  "MY_WIFI_PASSWORD"
+#define WIFI_SSID      "DNET"
+#define WIFI_PASSWORD  "tinyfinch802"
 
 // ---------- TFT Pins (Waveshare ESP32-S3 GEEK) ----------
 #define TFT_BL    7   // Backlight
